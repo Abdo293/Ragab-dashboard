@@ -27,7 +27,7 @@ import Image from "next/image";
 interface DynamicImageUploadProps {
   id: string; // The database record ID (e.g., "hero-section")
   column: any; // The column name (e.g., "image", "logo")
-  title: string; // Display title
+  title?: string; // Display title
   description?: string; // Optional description
   imageHeight?: string; // CSS height class for image display
   className?: string; // Additional styling
