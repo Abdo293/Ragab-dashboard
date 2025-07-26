@@ -1,5 +1,4 @@
 import { UploadImages } from "@/components/portfolio/UploadImages";
-import React from "react";
 
 function Portfolio() {
   return (

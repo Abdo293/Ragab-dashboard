@@ -100,5 +100,21 @@
     "deleteCategoryConfirmation": "Are you sure you want to delete the category \"{name}\"? This action cannot be undone.",
     "deleteCategoryFailed": "Cannot delete this category because it has linked media files.",
     "deleteCategoryError": "An error occurred while deleting the category."
+  },
+  "brand": {
+    "manager": "Brand Manager",
+    "description": "Add and manage brands for your categories",
+    "addNew": "Add New Brand",
+    "selectCategory": "Select a category and enter brand information in both languages",
+    "category": "Category",
+    "arName": "Arabic Name",
+    "enName": "English Name",
+    "brandIn": "Brands in",
+    "manageBrand": "Manage brands in the selected category",
+    "noBrand": "No brands found in this category",
+    "addAboveBrand": "Add your first brand above",
+    "selectCat": "Select a category",
+    "adding": "Adding...",
+    "addBrand": "Add Brand"
   }
 }

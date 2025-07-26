@@ -60,6 +60,7 @@ import {
 import { toast } from "sonner";
 import CategoryManager from "./CategoryManager";
 import { useLocale, useTranslations } from "next-intl";
+import SubcategoryManager from "@/components/portfolio/SubcategoryManager";
 
 interface FileWithPreview {
   file: File;
@@ -80,9 +81,22 @@ export function UploadImages() {
   const [mediaItems, setMediaItems] = useState<any[]>([]);
   const [isLoadingMedia, setIsLoadingMedia] = useState(true);
   const [deletingItems, setDeletingItems] = useState<Set<string>>(new Set());
+  const [subcategories, setSubcategories] = useState<any[]>([]);
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
 
   const t = useTranslations("portfolio");
   const locale = useLocale();
+
+  const fetchSubcategories = async (categoryId: string) => {
+    const { data } = await supabase
+      .from("brand")
+      .select("*")
+      .eq("category_id", categoryId)
+      .order("created_at", { ascending: false });
+
+    setSubcategories(data || []);
+    setSelectedSubcategory(""); // reset
+  };
 
   // تحميل الأقسام والوسائط
   useEffect(() => {
@@ -365,6 +379,10 @@ export function UploadImages() {
         <CategoryManager />
       </div>
 
+      <div>
+        <SubcategoryManager />
+      </div>
+
       <Separator className="my-8" />
 
       {/* Upload Section Header */}
@@ -398,7 +416,10 @@ export function UploadImages() {
               <Label htmlFor="category">{t("theCategory")}</Label>
               <Select
                 value={selectedCategory}
-                onValueChange={setSelectedCategory}
+                onValueChange={(val) => {
+                  setSelectedCategory(val);
+                  fetchSubcategories(val);
+                }}
               >
                 <SelectTrigger>
                   <SelectValue placeholder={t("selectAppropriateCategory")} />
@@ -423,6 +444,27 @@ export function UploadImages() {
                   {t("noCategoriesAvailable")}
                 </AlertDescription>
               </Alert>
+            )}
+
+            {subcategories.length > 0 && (
+              <div className="space-y-2">
+                <Label htmlFor="subcategory">الشركة / البراند</Label>
+                <Select
+                  value={selectedSubcategory}
+                  onValueChange={setSelectedSubcategory}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="اختر الشركة" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {subcategories.map((sub) => (
+                      <SelectItem key={sub.id} value={sub.id.toString()}>
+                        {locale === "ar" ? sub.name_ar : sub.name_en}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             )}
 
             {/* File Upload Area */}
